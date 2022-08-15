@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/layout :: head">
+    <title>Title</title>
+</head>
+<body>
+<div class="container">
+    <h1>Car detail</h1>
+    <table class="table table-striped" th:object="${car}">
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Color</th>
+            <th>Price</th>
+        </tr>
+        <tr>
+            <td th:text="${car.getId()}"></td>
+            <td th:text="${car.getName()}"></td>
+            <td th:text="${car.getColor()}"></td>
+            <td th:text="${car.getPrice()}"></td>
+        </tr>
+    </table>
+    <button class="btn btn-primary"><a href="/car">Back to home</a></button>
+</div>
+</body>
+</html>

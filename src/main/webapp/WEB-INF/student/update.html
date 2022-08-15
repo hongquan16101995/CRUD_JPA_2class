@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/layout :: head">
+    <title>Title</title>
+</head>
+<body>
+<div class="container">
+    <h1>Update student</h1>
+    <h2 th:if="${message} != null" th:text="${message}"></h2>
+    <form method="post" th:object="${student}">
+        <table class="table table-striped">
+            <tr>
+                <td>Name</td>
+                <td><label><input type="text" th:field="*{name}"></label></td>
+            </tr>
+            <tr>
+                <th>Age</th>
+                <td><label><input type="text" th:field="*{age}"></label></td>
+            </tr>
+            <tr>
+                <th>Gender</th>
+                <td>
+                    <label>
+                        <input type="radio" value="male" name="gender" th:field="*{gender}">Nam
+                    </label>
+                    <label>
+                        <input type="radio" value="female" name="gender" th:field="*{gender}">Nữ
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <th>Address</th>
+                <td><label>
+                    <textarea cols="35" rows="8" th:field="*{address}"></textarea>
+                </label></td>
+            </tr>
+            <tr>
+                <th>Phone</th>
+                <td><label><input type="text" th:field="*{phone}"></label></td>
+            </tr>
+            <tr>
+                <th>Class</th>
+                <td>
+                    <label>
+                        <select th:field="*{classes}">
+                            <option th:each="c : ${classes}" th:value="${c.getId()}"
+                                    th:text="${c.getName()}"></option>
+                        </select>
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <button class="btn btn-warning" type="submit"><span>Update</span></button>
+                </td>
+            </tr>
+        </table>
+    </form>
+    <button class="btn btn-primary"><a href="/student">Back to home</a></button>
+</div>
+</body>
+</html>
