@@ -4,6 +4,8 @@ import com.example.crud_thymeleaf_jpa.model.Student;
 import com.example.crud_thymeleaf_jpa.repository.IStudentRepository;
 import com.example.crud_thymeleaf_jpa.service.IStudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
@@ -37,5 +39,16 @@ public class StudentService implements IStudentService {
     public List<Student> findBySearch(String name) {
 //        return iStudentRepository.findAllByNameContaining(name);
         return iStudentRepository.findByName("%" + name + "%");
+    }
+
+    @Override
+    public Page<Student> findPageBySearch(String name, Pageable pageable) {
+        return iStudentRepository.findAllByNameContaining(name, pageable);
+//        return iStudentRepository.findByNamePage(name, pageable);
+    }
+
+    @Override
+    public Page<Student> findPage(Pageable pageable) {
+        return iStudentRepository.findAll(pageable);
     }
 }

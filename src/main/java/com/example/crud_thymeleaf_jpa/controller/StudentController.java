@@ -5,6 +5,11 @@ import com.example.crud_thymeleaf_jpa.model.Student;
 import com.example.crud_thymeleaf_jpa.service.IClassesService;
 import com.example.crud_thymeleaf_jpa.service.IStudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -36,6 +41,21 @@ public class StudentController {
     @GetMapping
     public ModelAndView findAllStudent() {
         return new ModelAndView("display");
+    }
+
+    @GetMapping("/page")
+    public ModelAndView findAllStudentPage(@RequestParam("search") Optional<String> name,
+                                           @PageableDefault(value = 3) @SortDefault(sort = {"age"}, direction = Sort.Direction.DESC) Pageable pageable) {
+        ModelAndView modelAndView = new ModelAndView("display_page");
+        Page<Student> studentPage;
+        if (name.isPresent()) {
+            studentPage = studentService.findPageBySearch(name.get(),pageable);
+            modelAndView.addObject("search", name.get());
+        } else {
+            studentPage = studentService.findPage(pageable);
+        }
+        modelAndView.addObject("studentPage", studentPage);
+        return modelAndView;
     }
 
     @GetMapping("/create")
@@ -92,12 +112,10 @@ public class StudentController {
     @PostMapping("/search")
     public ModelAndView search(@RequestParam("search") Optional<String> name) {
         ModelAndView modelAndView = new ModelAndView("display");
-//        List<Student> students ;
         if (name.isPresent()) {
             List<Student> students = studentService.findBySearch(name.get());
             modelAndView.addObject("students", students);
         }
-//        modelAndView.addObject("students", students);
         return modelAndView;
     }
 }
