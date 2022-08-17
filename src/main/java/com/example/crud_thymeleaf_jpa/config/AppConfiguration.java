@@ -36,7 +36,7 @@ import java.util.Properties;
 @EnableJpaRepositories("com.example.crud_thymeleaf_jpa.repository")
 @EnableTransactionManagement
 @EnableSpringDataWebSupport
-@ComponentScan("com.example.crud_thymeleaf_jpa.controller")
+@ComponentScan("com.example.crud_thymeleaf_jpa")
 public class AppConfiguration implements WebMvcConfigurer, ApplicationContextAware {
 
     private ApplicationContext applicationContext;

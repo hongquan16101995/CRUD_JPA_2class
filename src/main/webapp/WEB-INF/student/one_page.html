@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/layout :: header">
+    <title>Title</title>
+</head>
+<body>
+<div class="container">
+    <h1>List Student</h1>
+    <h2 th:if="${message} != null" th:text="${message}"></h2>
+    <div class="row">
+        <div class="col-12">
+            <button class="btn btn-primary">
+                <a th:href="@{/one_page/0}">Create new student</a>
+            </button>
+            <button hidden id="test" th:value="${test}" type="button" class="btn btn-primary"
+                    data-bs-toggle="modal" data-bs-target="#myModal">
+            </button>
+        </div>
+    </div>
+    <table class="table table-striped">
+        <tr>
+            <th>STT</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Gender</th>
+            <th>Address</th>
+            <th>Phone</th>
+            <th>Class</th>
+            <th id="action" colspan="2">Action</th>
+        </tr>
+        <tr th:each="s,status : ${students}">
+            <td th:text="${status.count}"></td>
+            <td th:text="${s.getName()}"></td>
+            <td th:text="${s.getAge()}"></td>
+            <td th:text="${s.getGender()}"></td>
+            <td th:text="${s.getAddress()}"></td>
+            <td th:text="${s.getPhone()}"></td>
+            <td th:text="${s.getClasses().getName()}"></td>
+            <td>
+                <button class="btn btn-warning">
+                    <a th:href="@{/one_page/{id}(id=${s.getId()})}">Update</a>
+                </button>
+            </td>
+            <td>
+                <button class="btn btn-danger">
+                    <a th:href="@{/one_page/delete/{id}(id=${s.getId()})}">Delete</a>
+                </button>
+            </td>
+        </tr>
+    </table>
+</div>
+
+
+<!-- The Modal Create -->
+<div class="modal" id="myModal">
+    <div style="margin-left: 350px" class="modal-dialog">
+        <div style="width: 800px" class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title" id="title">Create student form</h4>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <form method="post" th:object="${student}">
+                    <table class="table table-striped">
+                        <tr>
+                            <th>Name</th>
+                            <td><label><input type="text" th:field="*{name}"></label></td>
+                        </tr>
+                        <tr>
+                            <th>Age</th>
+                            <td><label><input type="text" th:field="*{age}"></label></td>
+                        </tr>
+                        <tr>
+                            <th>Gender</th>
+                            <td>
+                                <label>
+                                    <input type="radio" value="male" name="gender" th:field="*{gender}">Nam
+                                </label>
+                                <label>
+                                    <input type="radio" value="female" name="gender" th:field="*{gender}">Nữ
+                                </label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Address</th>
+                            <td><label>
+                                <textarea cols="35" rows="8" th:field="*{address}"></textarea>
+                            </label></td>
+                        </tr>
+                        <tr>
+                            <th>Phone</th>
+                            <td><label><input type="text" th:field="*{phone}"></label></td>
+                        </tr>
+                        <tr>
+                            <th>Class</th>
+                            <td>
+                                <label>
+                                    <select th:field="*{classes}">
+                                        <option th:each="c : ${classes}" th:value="${c.getId()}"
+                                                th:text="${c.getName()}"></option>
+                                    </select>
+                                </label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <button class="btn btn-primary" type="submit">
+                                    <span id="title-button">Create</span>
+                                </button>
+                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                                    <a th:href="@{/one_page}">Close</a>
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    window.onload = function () {
+        if (document.getElementById("test").value !== "-1") {
+            document.getElementById("test").click()
+        }
+        changeTitle()
+    }
+
+    function changeTitle() {
+        if (document.getElementById("test").value !== "0") {
+            document.getElementById("title-button").innerHTML = "Update"
+            document.getElementById("title").innerHTML = "Update student form"
+        }
+    }
+</script>
+</html>
